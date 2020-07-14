@@ -1,7 +1,5 @@
 package com.rps;
 
-import javafx.application.Application;
-
 public class GameLogic {
 
     public static void main(String[] args) {
