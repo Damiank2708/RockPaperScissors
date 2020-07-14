@@ -1,13 +1,15 @@
 package com.rps;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public final class GameBoradController {
 
     private final List<Player> playersList;
     private int quantitiOfRoundsToEndGame;
+    private Scanner scanner = new Scanner(System.in);
+    private Random random = new Random();
+
 
     public GameBoradController() {
         playersList = new ArrayList<>();
@@ -81,5 +83,110 @@ public final class GameBoradController {
         }
         return 0;
     }
+
+    public String askAboutPlayerName(){
+      System.out.println("You Name: ");
+      return scanner.nextLine();
+    }
+
+    public int askAboutQuantitiRounds(){
+        System.out.println("Please chose how many rounds the game will have: ");
+        int i = 0;
+        try {
+            i = Integer.parseInt(scanner.nextLine());
+            if (i <= 0){
+               System.out.println("Please type number more than 0. ");
+                return askAboutQuantitiRounds();
+            }
+        }
+        catch (NumberFormatException e){
+            System.out.println("Please write number.");
+            return askAboutQuantitiRounds();
+        }
+        return i;
+    }
+
+    public int askAboutMove(){
+        System.out.println("Please chose move " +
+                "1 - ROCK " +
+                "2 - Paper " +
+                "3 - SCISSORS : ");
+        int i = 0;
+        try{
+          i = Integer.parseInt(scanner.nextLine());
+            if (i <= 0 && i >=4){
+                System.out.println("Please type number 1 or 2 or 3. ");
+                return askAboutMove();
+            }
+        }
+        catch (NumberFormatException e){
+            System.out.println("Please write correctly number.");
+            return askAboutMove();
+        }
+        return i;
+    }
+
+    public int randomMove(){
+        int randomResult = 0;
+        while(randomResult == 0){
+            randomResult = random.nextInt(4);
+        }
+        return randomResult;
+    }
+
+    public void showWhatChosePlayers(){
+        for ( Player player: playersList ) {
+            System.out.println(player.getPlayerName()+" was chose "+ convertIdMoveToName(player.getCurrentMove()));
+        }
+    }
+
+    public void showWhoWinRound(int playerID){
+        if (playerID > 0) {
+            System.out.println("This Round Win " + playersList.get( getIndexByPlayerId(playerID)).getPlayerName());
+        }
+        else {
+            System.out.println("This Round nobody win. DRAW !");
+        }
+    }
+
+    private String convertIdMoveToName(int idMove){
+        switch (idMove){
+            case 1: return "ROCK.";
+            case 2: return "PAPER.";
+            case 3: return "SCISSORS.";
+            default: return "";
+        }
+    }
+
+    public void showSccore(){
+        for ( Player player: playersList ) {
+            if ( player.getPoint() > 1 ){
+              System.out.println(player.getPlayerName()+" have "+ player.getPoint() + " points.");
+            }
+            else {
+              System.out.println(player.getPlayerName()+" have "+ player.getPoint() + " point.");
+            }
+        }
+    }
+
+    public void showWhoWinGame(int playerIdWhoWinGame){
+        System.out.println("The WINNER is "+playersList.get(getIndexByPlayerId(playerIdWhoWinGame)).getPlayerName() + "!!!!");
+    }
+
+    public String askAboutExitOrReaptGame(){
+        System.out.println("Chose X to exit. " +
+                           "N to play again: ");
+        return  scanner.nextLine().toUpperCase();
+    }
+
+    private int getIndexByPlayerId(int playerId){
+        for ( Player player: playersList ) {
+            if ( player.getPlayerId()== playerId ){
+                return playersList.indexOf(player);
+            }
+        }
+        return 0;
+    }
+
 
 }

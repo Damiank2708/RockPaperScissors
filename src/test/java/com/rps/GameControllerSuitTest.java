@@ -8,11 +8,11 @@ public class GameControllerSuitTest {
     public void testGameController() {
         GameBoradController gameBoardController = new GameBoradController();
 
-        Player player1 = new Player(1, "Damian", false);
+        Player player1 = new Player(1, "Damian");
         Assert.assertEquals("Damian", player1.getPlayerName());
         Assert.assertEquals(1, player1.getPlayerId());
 
-        Player player2 = new Player(2, "Uncle Bob - PC", true);
+        Player player2 = new Player(2, "Uncle Bob - PC");
         Assert.assertEquals("Uncle Bob - PC", player2.getPlayerName());
         Assert.assertEquals(2, player2.getPlayerId());
 
